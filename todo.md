@@ -4,14 +4,11 @@ done:
 - read posts
 - sort posts
 
-not done:
-- place content into templates
-- generate stuff:
-    - index(es)
-    - archive
-    - posts
-    - static pages
-
+- index pages
+  - index
+  - pages
+  - pagination
+  - links
 
 future ideas:
 - tags
@@ -21,4 +18,4 @@ future ideas:
 - photo embeds
 - rss
 - json feed
-??
+

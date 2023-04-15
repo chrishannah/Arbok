@@ -48,18 +48,43 @@ def generate_post_index_pages(posts: list[Post]):
     posts_per_page = 10
     chunked_posts = list(split(posts, posts_per_page))
     for page, posts_chunk in enumerate(chunked_posts):
-        index_page_content = generate_post_index_page(posts_chunk)
-        filename = 'index'
-        if page > 0: filename = 'page' + str(page)
+        previous = get_page_filename(get_previous_page(page))
+        next = get_page_filename(get_next_page(page, len(chunked_posts)))
+        index_page_content = generate_post_index_page(posts_chunk, previous, next)
+        filename = get_page_filename(page)
         post_index_pages[filename] = index_page_content
     return post_index_pages
 
 
-def generate_post_index_page(posts: list[Post]) -> str:
+def get_previous_page(page: int) -> int:
+    if page > 0:
+        return page - 1
+    else:
+        return -1
+
+
+def get_next_page(page: int, total_pages: int) -> int:
+    if page == total_pages - 1:
+        return -1
+    else:
+        return page + 1
+
+
+def get_page_filename(page: int) -> str:
+    filename = ''
+    if page == 0:
+        return 'index'
+    elif page > 0:
+        filename = 'page' + str(page)
+    return filename
+
+
+def generate_post_index_page(posts: list[Post], previous: str, next: str) -> str:
     content = ""
     for post in posts:
         content += generate_post_page_content(post)
-    generated_page = generate_default_page(content)
+    paged_page = generate_paged_page(content, previous, next)
+    generated_page = generate_default_page(paged_page)
     return generated_page
 
 
@@ -76,6 +101,23 @@ def generate_default_page(content: str) -> str:
         .replace('__SITE_TITLE__', SITE_TITLE) \
         .replace('__CONTENT__', content)
     return default_template
+
+
+def generate_paged_page(content: str, previous: str, next: str) -> str:
+    paged_link_template = open('templates/paged-link.html').read()
+    paged_content = ''
+    if len(previous) > 0:
+        paged_content += paged_link_template \
+            .replace('__URL__', previous + ".html") \
+            .replace('__TEXT__', 'Newer')
+    if len(next) > 0:
+        paged_content += paged_link_template \
+            .replace('__URL__', next + ".html") \
+            .replace('__TEXT__', 'Older')
+    paged_template = open('templates/paged.html').read() \
+        .replace('__CONTENT__', content) \
+        .replace('__PAGINATION__', paged_content)
+    return paged_template
 
 
 def write_file(destination_dir, filename, content):
