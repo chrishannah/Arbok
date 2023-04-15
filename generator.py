@@ -1,11 +1,14 @@
-from html5print import HTMLBeautifier
-
 from constants import SITE_TITLE
-from xml.dom import minidom
 from post import Post
+from utils import split
 
 
 def generate_pages(posts: list[Post], destination_dir: str):
+    # indexes
+    index_pages = generate_post_index_pages(posts)
+    for index_page in index_pages:
+        index_page_content = index_pages[index_page]
+        write_file(destination_dir, index_page, index_page_content)
     # archive
     archive_page = generate_post_archive(posts)
     write_file(destination_dir, 'archive', archive_page)
@@ -16,13 +19,18 @@ def generate_pages(posts: list[Post], destination_dir: str):
 
 
 def generate_post_page(post: Post) -> str:
+    post_page_content = generate_post_page_content(post)
+    generated_page = generate_default_page(post_page_content)
+    return generated_page
+
+
+def generate_post_page_content(post: Post) -> str:
     post_template = open('templates/post.html').read() \
         .replace('__POST__TITLE__', post.title) \
         .replace('__POST_URL__', '' + post.filename + ".html") \
         .replace('__POST_DATE__', post.date.strftime('%-d/%m/%Y')) \
         .replace('__CONTENT__', post.html)
-    generated_page = generate_default_page(post_template)
-    return generated_page
+    return post_template
 
 
 def generate_post_archive(posts: list[Post]) -> str:
@@ -32,7 +40,26 @@ def generate_post_archive(posts: list[Post]) -> str:
     archive_template = open('templates/archive.html').read() \
         .replace('__CONTENT__', content)
     generated_page = generate_default_page(archive_template)
-    # html = HTMLBeautifier.beautify(generated_page, 4)
+    return generated_page
+
+
+def generate_post_index_pages(posts: list[Post]):
+    post_index_pages = {}
+    posts_per_page = 10
+    chunked_posts = list(split(posts, posts_per_page))
+    for page, posts_chunk in enumerate(chunked_posts):
+        index_page_content = generate_post_index_page(posts_chunk)
+        filename = 'index'
+        if page > 0: filename = 'page' + str(page)
+        post_index_pages[filename] = index_page_content
+    return post_index_pages
+
+
+def generate_post_index_page(posts: list[Post]) -> str:
+    content = ""
+    for post in posts:
+        content += generate_post_page_content(post)
+    generated_page = generate_default_page(content)
     return generated_page
 
 
