@@ -64,10 +64,9 @@ def generate_default_page(content: str) -> str:
     return default_template
 
 
-def clear_dir(dir: str):
-    for filename in listdir(dir):
-        os.remove(dir + '/' + filename)
+def clear_dir(directory: str):
+    for filename in listdir(directory):
+        os.remove(directory + '/' + filename)
 
 
-# lol
 generate_blog()

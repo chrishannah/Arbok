@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+python-frontmatter = "*"
+markdown = "*"
+html5print = "*"
+slimit = {ref = "3533eba9ad5b39f3a015ae6269670022ab310847", git = "https://github.com/rspivak/slimit.git"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
