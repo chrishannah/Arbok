@@ -1,21 +1,40 @@
 <!doctype html>
 <html lang="en_GB">
 
-	<head>
-		<title>__SITE_TITLE__</title>
+<head>
+    <title>__SITE_TITLE__</title>
 
-		<style>
+    <style>
 			body {
-				max-width: 80ch;
-				font-family: apple-system, sans-serif;
-				margin: 1rem 2rem;
-			}
+			    background-color: #fffdfb;
+                max-width: 38rem;
+                padding: 2rem;
+                margin: auto;
+                line-height: 1.75;
+                font-size: 1.05rem;
+                font-family: "Iowan Old Style", "Iowan", Charter, Georgia, serif;
+	            -webkit-font-smoothing: antialiased;
+	            -moz-osx-font-smoothing: grayscale;
+	            font-smooth: auto;
+                color: #1d1d1d;
+            }
 
-		</style>
-	</head>
+            h1,h2,h3,h4,h5,h6 {
+                margin: 3em 0 1em;
+            }
 
-	<body>
-		__CONTENT__
-	</body>
+            p,ul,ol,article {
+                margin-bottom: 1em;
+            }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>__SITE_TITLE__</h1>
+</header>
+
+__CONTENT__
+</body>
 
 </html>

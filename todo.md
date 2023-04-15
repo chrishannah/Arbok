@@ -1,7 +1,10 @@
 # some sort of blog
 
+done:
 - read posts
 - sort posts
+
+not done:
 - place content into templates
 - generate stuff:
     - index(es)
@@ -10,8 +13,7 @@
     - static pages
 
 
-
-more:
+future ideas:
 - tags
 - templates
 - blog init

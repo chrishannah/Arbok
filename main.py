@@ -9,7 +9,7 @@ from post import Post
 
 source_dir = 'source'
 destination_dir = 'blog'
-site_title = 'A Website'
+site_title = 'Chris\' Blog'
 
 
 def generate_blog():
