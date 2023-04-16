@@ -13,5 +13,13 @@ def get_posts_per_page() -> int:
     return config['site']['posts_per_page']
 
 
+def get_source_directory() -> str:
+    return 'source'
+
+
 def get_output_directory() -> str:
     return config['output_directory']
+
+
+def get_image_directory() -> str:
+    return get_source_directory() + '/' + config['image_directory']

@@ -1,9 +1,11 @@
 import os
+import shutil
 from os import listdir
 
 import frontmatter
 import markdown
 
+from config import get_output_directory, get_image_directory
 from post import Post
 
 
@@ -28,4 +30,22 @@ def read_post_files(directory: str) -> list[Post]:
 
 def clear_dir(directory: str):
     for filename in listdir(directory):
-        os.remove(directory + '/' + filename)
+        full_path = directory + '/' + filename
+        if os.path.isfile(filename):
+            os.remove(full_path)
+        elif os.path.isdir(full_path):
+            os.removedirs(full_path)
+
+
+def copy_directory(source: str, destination: str):
+    shutil.copytree(source, destination, dirs_exist_ok=True)
+
+
+def set_up_output_directory():
+    create_empty_dir(get_output_directory())
+    create_empty_dir(get_image_directory())
+
+
+def create_empty_dir(directory: str):
+    if not os.path.exists(directory):
+        os.mkdir(directory)
