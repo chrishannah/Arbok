@@ -1,4 +1,4 @@
-# some sort of blog
+# todo
 
 done:
 
@@ -11,12 +11,10 @@ done:
     - links
 - config file
 - photo embeds
+- footer links
 
 future ideas:
 
 - tags
-- rss
-- json feed
-- dark mode
-- tag/category pages
+- feeds (rss/json)
 

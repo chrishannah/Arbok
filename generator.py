@@ -1,4 +1,5 @@
-from config import get_site_title, get_posts_per_page, get_accent_colour
+from config import get_site_title, get_posts_per_page, get_secondary_text_colour, get_background_colour, \
+    get_text_colour, get_link_colour, get_links
 from date import format_datetime
 from files import write_file
 from post import Post
@@ -100,10 +101,12 @@ def generate_post_archive_item(post: Post) -> str:
 
 def generate_default_page(content: str) -> str:
     style_content = get_style_content()
+    footer_content = get_footer_content()
     default_template = open('templates/default.html').read() \
         .replace('__SITE_TITLE__', get_site_title()) \
         .replace('__CONTENT__', content) \
-        .replace('__STYLE__', style_content)
+        .replace('__STYLE__', style_content) \
+        .replace('__FOOTER_CONTENT__', footer_content)
     return default_template
 
 
@@ -126,5 +129,23 @@ def generate_paged_page(content: str, previous: str, next: str) -> str:
 
 def get_style_content() -> str:
     style_content = open('templates/style.css').read() \
-        .replace('__ACCENT_COLOUR__', get_accent_colour())
+        .replace('__BACKGROUND_COLOUR__', get_background_colour()) \
+        .replace('__TEXT_COLOUR__', get_text_colour()) \
+        .replace('__SECONDARY_TEXT_COLOUR__', get_secondary_text_colour()) \
+        .replace('__LINK_COLOUR__', get_link_colour())
     return style_content
+
+
+def get_footer_content() -> str:
+    links = get_links()
+    link_template = open('templates/link.html').read()
+    link_content = ''
+    for index, link in enumerate(links):
+        link_content += link_template \
+            .replace('__URL__', link.url) \
+            .replace('__LABEL__', link.label)
+        if index < len(links) - 1:
+            link_content += ' '
+    footer_content = open('templates/footer.html').read() \
+        .replace('__CONTENT__', link_content)
+    return footer_content

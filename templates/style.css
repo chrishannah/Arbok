@@ -1,5 +1,5 @@
 body {
-    background-color: #fffdfb;
+    background-color: __BACKGROUND_COLOUR__;
     max-width: 38rem;
     padding: 2rem;
     margin: auto;
@@ -9,15 +9,15 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-smooth: auto;
-    color: #1d1d1d;
+    color: __TEXT_COLOUR__;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
     margin-top: 0.2em;
     margin-bottom: 1em;
 }
 
-p,ul,ol {
+p, ul, ol {
     margin-bottom: 1em;
 }
 
@@ -26,7 +26,7 @@ article {
 }
 
 date {
-    color: #454545;
+    color: __SECONDARY_TEXT_COLOUR__;
     font-size: 0.8rem;
 }
 
@@ -36,9 +36,13 @@ body>header>h1 {
 }
 
 a {
-    color: __ACCENT_COLOUR__;
+    color: __LINK_COLOUR__;
 }
 
 h1>a {
     text-decoration: none;
+}
+
+footer a, header a {
+text-decoration: none;
 }
