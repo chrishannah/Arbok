@@ -34,7 +34,7 @@ def clear_dir(directory: str):
         if os.path.isfile(filename):
             os.remove(full_path)
         elif os.path.isdir(full_path):
-            os.removedirs(full_path)
+            shutil.rmtree(full_path)
 
 
 def copy_directory(source: str, destination: str):

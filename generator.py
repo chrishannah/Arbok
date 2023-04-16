@@ -1,4 +1,5 @@
 from config import get_site_title, get_posts_per_page
+from date import format_datetime
 from post import Post
 from utils import split
 
@@ -28,7 +29,7 @@ def generate_post_page_content(post: Post) -> str:
     post_template = open('templates/post.html').read() \
         .replace('__POST__TITLE__', post.title) \
         .replace('__POST_URL__', '' + post.filename + ".html") \
-        .replace('__POST_DATE__', post.date.strftime('%-d/%m/%Y')) \
+        .replace('__POST_DATE__', format_datetime(post.date)) \
         .replace('__CONTENT__', post.html)
     return post_template
 
@@ -92,7 +93,7 @@ def generate_post_archive_item(post: Post) -> str:
     archive_item_template = open('templates/archive-post.html').read() \
         .replace('__POST_TITLE__', post.title) \
         .replace('__POST_URL__', '' + post.filename + ".html") \
-        .replace('__POST_DATE__', post.date.strftime('%d/%m/%Y'))
+        .replace('__POST_DATE__', format_datetime(post.date))
     return archive_item_template
 
 
