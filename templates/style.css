@@ -1,0 +1,44 @@
+body {
+    background-color: #fffdfb;
+    max-width: 38rem;
+    padding: 2rem;
+    margin: auto;
+    line-height: 1.75;
+    font-size: 1.05rem;
+    font-family: "Iowan Old Style", "Iowan", Charter, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: auto;
+    color: #1d1d1d;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin-top: 0.2em;
+    margin-bottom: 1em;
+}
+
+p,ul,ol {
+    margin-bottom: 1em;
+}
+
+article {
+    margin-bottom: 4em;
+}
+
+date {
+    color: #454545;
+    font-size: 0.8rem;
+}
+
+body>header>h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4em;
+}
+
+a {
+    color: #09f;
+}
+
+h1>a {
+    text-decoration: none;
+}

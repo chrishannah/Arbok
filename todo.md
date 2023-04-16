@@ -3,7 +3,6 @@
 done:
 - read posts
 - sort posts
-
 - index pages
   - index
   - pages

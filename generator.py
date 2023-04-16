@@ -97,9 +97,11 @@ def generate_post_archive_item(post: Post) -> str:
 
 
 def generate_default_page(content: str) -> str:
+    style_content = open('templates/style.css').read()
     default_template = open('templates/default.html').read() \
         .replace('__SITE_TITLE__', SITE_TITLE) \
-        .replace('__CONTENT__', content)
+        .replace('__CONTENT__', content) \
+        .replace('__STYLE__', style_content)
     return default_template
 
 
