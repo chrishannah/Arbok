@@ -4,9 +4,6 @@ import yaml
 config_file = open('source/blog.yaml').read()
 config = yaml.safe_load(config_file)
 
-for x in config:
-    print(x)
-
 
 def get_site_title() -> str:
     return config['site']['title']
