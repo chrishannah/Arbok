@@ -10,12 +10,11 @@ done:
     - pagination
     - links
 - config file
+- photo embeds
 
 future ideas:
 
 - tags
-- blog init
-- photo embeds
 - rss
 - json feed
 - dark mode

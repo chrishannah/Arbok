@@ -1,5 +1,6 @@
-from config import get_site_title, get_posts_per_page
+from config import get_site_title, get_posts_per_page, get_accent_colour
 from date import format_datetime
+from files import write_file
 from post import Post
 from utils import split
 
@@ -98,7 +99,7 @@ def generate_post_archive_item(post: Post) -> str:
 
 
 def generate_default_page(content: str) -> str:
-    style_content = open('templates/style.css').read()
+    style_content = get_style_content()
     default_template = open('templates/default.html').read() \
         .replace('__SITE_TITLE__', get_site_title()) \
         .replace('__CONTENT__', content) \
@@ -123,8 +124,7 @@ def generate_paged_page(content: str, previous: str, next: str) -> str:
     return paged_template
 
 
-def write_file(destination_dir, filename, content):
-    out_filename = destination_dir + '/' + filename + '.html'
-    output_file = open(out_filename, 'w')
-    output_file.write(content)
-    output_file.close()
+def get_style_content() -> str:
+    style_content = open('templates/style.css').read() \
+        .replace('__ACCENT_COLOUR__', get_accent_colour())
+    return style_content

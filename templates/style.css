@@ -36,7 +36,7 @@ body>header>h1 {
 }
 
 a {
-    color: #09f;
+    color: __ACCENT_COLOUR__;
 }
 
 h1>a {

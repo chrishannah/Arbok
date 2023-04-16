@@ -49,3 +49,10 @@ def set_up_output_directory():
 def create_empty_dir(directory: str):
     if not os.path.exists(directory):
         os.mkdir(directory)
+
+
+def write_file(destination_dir, filename, content):
+    out_filename = destination_dir + '/' + filename + '.html'
+    output_file = open(out_filename, 'w')
+    output_file.write(content)
+    output_file.close()

@@ -23,3 +23,7 @@ def get_output_directory() -> str:
 
 def get_image_directory() -> str:
     return get_source_directory() + '/' + config['image_directory']
+
+
+def get_accent_colour() -> str:
+    return config['style']['accent-colour']
