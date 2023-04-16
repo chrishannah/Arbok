@@ -1,4 +1,4 @@
-from constants import SITE_TITLE
+from config import get_site_title, get_posts_per_page
 from post import Post
 from utils import split
 
@@ -45,7 +45,7 @@ def generate_post_archive(posts: list[Post]) -> str:
 
 def generate_post_index_pages(posts: list[Post]):
     post_index_pages = {}
-    posts_per_page = 10
+    posts_per_page = get_posts_per_page()
     chunked_posts = list(split(posts, posts_per_page))
     for page, posts_chunk in enumerate(chunked_posts):
         previous = get_page_filename(get_previous_page(page))
@@ -99,7 +99,7 @@ def generate_post_archive_item(post: Post) -> str:
 def generate_default_page(content: str) -> str:
     style_content = open('templates/style.css').read()
     default_template = open('templates/default.html').read() \
-        .replace('__SITE_TITLE__', SITE_TITLE) \
+        .replace('__SITE_TITLE__', get_site_title()) \
         .replace('__CONTENT__', content) \
         .replace('__STYLE__', style_content)
     return default_template

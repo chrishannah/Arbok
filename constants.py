@@ -1,1 +1,0 @@
-SITE_TITLE = 'Chris\' Blog'

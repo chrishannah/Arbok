@@ -7,7 +7,8 @@ name = "pypi"
 python-frontmatter = "*"
 markdown = "*"
 html5print = "*"
-slimit = {ref = "3533eba9ad5b39f3a015ae6269670022ab310847", git = "https://github.com/rspivak/slimit.git"}
+slimit = { ref = "3533eba9ad5b39f3a015ae6269670022ab310847", git = "https://github.com/rspivak/slimit.git" }
+pyyaml = "*"
 
 [dev-packages]
 

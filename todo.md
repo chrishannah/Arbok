@@ -1,19 +1,20 @@
 # some sort of blog
 
 done:
+
 - read posts
 - sort posts
 - index pages
-  - index
-  - pages
-  - pagination
-  - links
+    - index
+    - pages
+    - pagination
+    - links
+- config file
 
 future ideas:
+
 - tags
-- templates
 - blog init
-- config file
 - photo embeds
 - rss
 - json feed
