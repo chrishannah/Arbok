@@ -1,7 +1,7 @@
 from config import get_site_title, get_posts_per_page, get_secondary_text_colour, get_background_colour, \
     get_text_colour, get_link_colour, get_footer_links, get_header_links
 from date import format_datetime
-from files import write_file
+from files import write_file, get_page_url
 from post import Post
 from utils import split
 
@@ -12,6 +12,11 @@ def generate_pages(posts: list[Post], destination_dir: str):
     for index_page in index_pages:
         index_page_content = index_pages[index_page]
         write_file(destination_dir, index_page, index_page_content)
+    # tag indexes
+    tag_pages = generate_tag_archive_pages(posts)
+    for tag_page in tag_pages:
+        tag_page_content = tag_pages[tag_page]
+        write_file(destination_dir + '/tags', tag_page, tag_page_content)
     # archive
     archive_page = generate_post_archive(posts)
     write_file(destination_dir, 'archive', archive_page)
@@ -21,27 +26,56 @@ def generate_pages(posts: list[Post], destination_dir: str):
         write_file(destination_dir, post.filename, post_page)
 
 
+def generate_tag_archive_pages(posts: [Post]):
+    tag_archive_pages = {}
+    tags = []
+    for post in posts:
+        tags.extend(post.tags)
+    tags = list(set(tags))
+
+    for tag in tags:
+        filtered_posts = list(filter(lambda p: tag in p.tags, posts))
+        tag_archive_page = generate_post_archive(filtered_posts, 'Tag: ' + tag)
+        tag_archive_pages[tag.lower()] = tag_archive_page
+    return tag_archive_pages
+
+
 def generate_post_page(post: Post) -> str:
-    post_page_content = generate_post_page_content(post)
+    post_page_content = generate_post_page_content(post, True)
     generated_page = generate_default_page(post_page_content)
     return generated_page
 
 
-def generate_post_page_content(post: Post) -> str:
+def generate_post_page_content(post: Post, include_tags: bool) -> str:
+    tags_content = ''
+    if include_tags and len(post.tags) > 0:
+        content = ''
+        link_template = open('templates/link.html').read()
+        for index, tag in enumerate(post.tags):
+            content += link_template \
+                .replace('__URL__', get_page_url(tag, 'tag')) \
+                .replace('__LABEL__', tag)
+            if index < len(post.tags) - 1:
+                content += ' '
+        tags_content = open('templates/tags.html').read() \
+            .replace('__CONTENT__', content)
+
     post_template = open('templates/post.html').read() \
         .replace('__POST__TITLE__', post.title) \
-        .replace('__POST_URL__', '' + post.filename + ".html") \
+        .replace('__POST_URL__', '' + get_page_url(post.filename, 'post')) \
         .replace('__POST_DATE__', format_datetime(post.date)) \
-        .replace('__CONTENT__', post.html)
+        .replace('__CONTENT__', post.html) \
+        .replace('__FOOTER_CONTENT__', tags_content)
     return post_template
 
 
-def generate_post_archive(posts: list[Post]) -> str:
+def generate_post_archive(posts: list[Post], title='Archive') -> str:
     content = ""
     for post in posts:
         content += generate_post_archive_item(post)
     archive_template = open('templates/archive.html').read() \
-        .replace('__CONTENT__', content)
+        .replace('__CONTENT__', content) \
+        .replace('__TITLE__', title)
     generated_page = generate_default_page(archive_template)
     return generated_page
 
@@ -78,14 +112,14 @@ def get_page_filename(page: int) -> str:
     if page == 0:
         return 'index'
     elif page > 0:
-        filename = 'page' + str(page)
+        filename = 'page/' + str(page)
     return filename
 
 
 def generate_post_index_page(posts: list[Post], previous: str, next: str) -> str:
     content = ""
     for post in posts:
-        content += generate_post_page_content(post)
+        content += generate_post_page_content(post, False)
     paged_page = generate_paged_page(content, previous, next)
     generated_page = generate_default_page(paged_page)
     return generated_page
@@ -94,7 +128,7 @@ def generate_post_index_page(posts: list[Post], previous: str, next: str) -> str
 def generate_post_archive_item(post: Post) -> str:
     archive_item_template = open('templates/archive-post.html').read() \
         .replace('__POST_TITLE__', post.title) \
-        .replace('__POST_URL__', '' + post.filename + ".html") \
+        .replace('__POST_URL__', '' + get_page_url(post.filename, 'post')) \
         .replace('__POST_DATE__', format_datetime(post.date))
     return archive_item_template
 
@@ -114,15 +148,22 @@ def generate_default_page(content: str) -> str:
 
 def generate_paged_page(content: str, previous: str, next: str) -> str:
     paged_link_template = open('templates/paged-link.html').read()
-    paged_content = ''
+    previous_content = ''
+    next_content = ''
     if len(previous) > 0:
-        paged_content += paged_link_template \
-            .replace('__URL__', previous + ".html") \
-            .replace('__TEXT__', 'Newer')
+        previous_content += paged_link_template \
+            .replace('__URL__', get_page_url(previous, 'index')) \
+            .replace('__TEXT__', '← Newer')
     if len(next) > 0:
-        paged_content += paged_link_template \
-            .replace('__URL__', next + ".html") \
-            .replace('__TEXT__', 'Older')
+        next_content += paged_link_template \
+            .replace('__URL__', get_page_url(next, 'index')) \
+            .replace('__TEXT__', 'Older →')
+    links = []
+    if previous_content != '':
+        links.append(previous_content)
+    if next_content != '':
+        links.append(next_content)
+    paged_content = ' '.join(links)
     paged_template = open('templates/paged.html').read() \
         .replace('__CONTENT__', content) \
         .replace('__PAGINATION__', paged_content)

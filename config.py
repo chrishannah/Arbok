@@ -57,3 +57,7 @@ def get_footer_links() -> list[Link]:
         link = Link(link_item['label'], link_item['url'])
         links.append(link)
     return links
+
+
+def get_site_url() -> str:
+    return config['site']['url']

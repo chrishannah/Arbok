@@ -1,5 +1,8 @@
+from datetime import datetime
+
+
 class Post:
-    def __init__(self, title, html, tags, filename, date):
+    def __init__(self, title: str, html: str, tags: list[str], filename: str, date: datetime):
         self.title = title
         self.html = html
         self.tags = tags

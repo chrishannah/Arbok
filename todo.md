@@ -12,9 +12,11 @@ done:
 - config file
 - photo embeds
 - footer links
+- tags
 
 future ideas:
 
-- tags
 - feeds (rss/json)
+- featured images
+- linked post
 

@@ -5,7 +5,7 @@ from os import listdir
 import frontmatter
 import markdown
 
-from config import get_output_directory, get_image_directory
+from config import get_output_directory, get_image_directory, get_site_url
 from post import Post
 
 
@@ -19,7 +19,10 @@ def read_post_files(directory: str) -> list[Post]:
 
             fm_post = frontmatter.loads(file)
             title = fm_post.get('title')
-            tags = fm_post.get('tags')
+            tags = []
+            if fm_post.get('tags') is not None:
+                tags = str(fm_post.get('tags')).split(' ')
+
             date = fm_post.get('date')
             html = markdown.markdown(fm_post.content)
 
@@ -31,7 +34,7 @@ def read_post_files(directory: str) -> list[Post]:
 def clear_dir(directory: str):
     for filename in listdir(directory):
         full_path = directory + '/' + filename
-        if os.path.isfile(filename):
+        if os.path.isfile(full_path):
             os.remove(full_path)
         elif os.path.isdir(full_path):
             shutil.rmtree(full_path)
@@ -44,6 +47,8 @@ def copy_directory(source: str, destination: str):
 def set_up_output_directory():
     create_empty_dir(get_output_directory())
     create_empty_dir(get_image_directory())
+    create_empty_dir(get_output_directory() + '/tags')
+    create_empty_dir(get_output_directory() + '/page')
 
 
 def create_empty_dir(directory: str):
@@ -56,3 +61,12 @@ def write_file(destination_dir, filename, content):
     output_file = open(out_filename, 'w')
     output_file.write(content)
     output_file.close()
+
+
+def get_page_url(filename: str, type: str) -> str:
+    if type == 'post':
+        return get_site_url() + filename + '.html'
+    elif type == 'index':
+        return get_site_url() + filename + '.html'
+    elif type == 'tag':
+        return get_site_url() + 'tags/' + filename.lower() + '.html'
