@@ -1,5 +1,5 @@
 from config import get_site_title, get_posts_per_page, get_secondary_text_colour, get_background_colour, \
-    get_text_colour, get_link_colour, get_links
+    get_text_colour, get_link_colour, get_footer_links, get_header_links
 from date import format_datetime
 from files import write_file
 from post import Post
@@ -102,11 +102,13 @@ def generate_post_archive_item(post: Post) -> str:
 def generate_default_page(content: str) -> str:
     style_content = get_style_content()
     footer_content = get_footer_content()
+    header_navigation_content = get_header_navigation_content()
     default_template = open('templates/default.html').read() \
         .replace('__SITE_TITLE__', get_site_title()) \
         .replace('__CONTENT__', content) \
         .replace('__STYLE__', style_content) \
-        .replace('__FOOTER_CONTENT__', footer_content)
+        .replace('__FOOTER_CONTENT__', footer_content) \
+        .replace('__HEADER_CONTENT__', header_navigation_content)
     return default_template
 
 
@@ -137,7 +139,16 @@ def get_style_content() -> str:
 
 
 def get_footer_content() -> str:
-    links = get_links()
+    links = get_footer_links()
+    return generate_navigation_content(links)
+
+
+def get_header_navigation_content() -> str:
+    links = get_header_links()
+    return generate_navigation_content(links)
+
+
+def generate_navigation_content(links):
     link_template = open('templates/link.html').read()
     link_content = ''
     for index, link in enumerate(links):
@@ -145,7 +156,7 @@ def get_footer_content() -> str:
             .replace('__URL__', link.url) \
             .replace('__LABEL__', link.label)
         if index < len(links) - 1:
-            link_content += ' '
-    footer_content = open('templates/footer.html').read() \
+            link_content += ' ∣ '
+    nav_content = open('templates/nav.html').read() \
         .replace('__CONTENT__', link_content)
-    return footer_content
+    return nav_content

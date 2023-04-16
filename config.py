@@ -43,9 +43,17 @@ def get_link_colour() -> str:
     return config['style']['link-colour']
 
 
-def get_links() -> list[Link]:
+def get_header_links() -> list[Link]:
     links = []
-    for link_item in config['links']:
+    for link_item in config['header_links']:
+        link = Link(link_item['label'], link_item['url'])
+        links.append(link)
+    return links
+
+
+def get_footer_links() -> list[Link]:
+    links = []
+    for link_item in config['footer_links']:
         link = Link(link_item['label'], link_item['url'])
         links.append(link)
     return links

@@ -43,6 +43,6 @@ h1>a {
     text-decoration: none;
 }
 
-footer a, header a {
+nav>a {
 text-decoration: none;
 }
