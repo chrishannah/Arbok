@@ -18,4 +18,6 @@ future ideas:
 - photo embeds
 - rss
 - json feed
+- dark mode
+- tag/category pages
 
