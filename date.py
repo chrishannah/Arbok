@@ -1,13 +1,13 @@
 from datetime import datetime
 
 
-def format_datetime(date: datetime) -> str:
-    day = int(date.day)
-    ordinal = get_ordinal(day)
-    return str(day) + ordinal + str(date.strftime(' %B %Y'))
+def format_datetime(date: datetime.datetime) -> str:
+    ordinal = get_ordinal(int(date.day))
+    date_string = str(date.strftime('%A, %d{ordinal} %B %Y'))
+    return date_string.format(ordinal=ordinal)
 
 
-def get_ordinal(day: int):
+def get_ordinal(day: int) -> str:
     if 10 <= day % 100 < 20:
         return 'th'
     else:

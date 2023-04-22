@@ -61,9 +61,9 @@ def generate_post_page_content(post: Post, include_tags: bool) -> str:
             .replace('__CONTENT__', content)
 
     post_template = open('templates/post.html').read() \
-        .replace('__POST__TITLE__', post.title) \
+        .replace('__POST__TITLE__', generate_display_title(post)) \
         .replace('__POST_URL__', '' + get_page_url(post.filename, 'post')) \
-        .replace('__POST_DATE__', format_datetime(post.date)) \
+        .replace('__POST_DATE__', generate_display_date(post)) \
         .replace('__CONTENT__', post.html) \
         .replace('__FOOTER_CONTENT__', tags_content)
     return post_template
@@ -127,9 +127,9 @@ def generate_post_index_page(posts: list[Post], previous: str, next: str) -> str
 
 def generate_post_archive_item(post: Post) -> str:
     archive_item_template = open('templates/archive-post.html').read() \
-        .replace('__POST_TITLE__', post.title) \
+        .replace('__POST_TITLE__', generate_display_title(post)) \
         .replace('__POST_URL__', '' + get_page_url(post.filename, 'post')) \
-        .replace('__POST_DATE__', format_datetime(post.date))
+        .replace('__POST_DATE__', generate_display_date(post))
     return archive_item_template
 
 
@@ -201,3 +201,17 @@ def generate_navigation_content(links):
     nav_content = open('templates/nav.html').read() \
         .replace('__CONTENT__', link_content)
     return nav_content
+
+
+def generate_display_title(post: Post) -> str:
+    if len(post.title) > 0:
+        return post.title
+    else:
+        return format_datetime(post.date)
+
+
+def generate_display_date(post: Post) -> str:
+    if len(post.title) > 0:
+        return format_datetime(post.date)
+    else:
+        return ''

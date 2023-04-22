@@ -18,7 +18,8 @@ def read_post_files(directory: str) -> list[Post]:
             file = open(directory + '/' + filename).read()
 
             fm_post = frontmatter.loads(file)
-            title = fm_post.get('title')
+            title = fm_post.get('title') or ""
+
             tags = []
             if fm_post.get('tags') is not None:
                 tags = str(fm_post.get('tags')).split(' ')
